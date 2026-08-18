@@ -1,0 +1,10 @@
+<UserControl x:Class="FaizanCosmetics.UI.Views.PlaceholderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
+            <TextBlock Text="{Binding ModuleName}" Style="{StaticResource HeaderText}" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" />
+            <TextBlock Text="{Binding PlannedPhase}" Style="{StaticResource SubHeaderText}" HorizontalAlignment="Center" Margin="0,8,0,0" TextWrapping="Wrap" TextAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</UserControl>

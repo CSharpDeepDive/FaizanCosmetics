@@ -1,0 +1,49 @@
+<UserControl x:Class="FaizanCosmetics.UI.Views.LowStockView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Low Stock &amp; Out of Stock" Style="{StaticResource HeaderText}" />
+            <Button Grid.Column="1" Content="Refresh" Style="{StaticResource SecondaryButton}" Command="{Binding RefreshCommand}" />
+        </Grid>
+
+        <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Style="{StaticResource ValidationMessageText}"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,8,0,0" />
+
+        <StackPanel Grid.Row="2" Margin="0,16,0,12">
+            <TextBlock Text="Low Stock (at or below minimum level)" Style="{StaticResource SubHeaderText}" Margin="0,0,0,8" />
+            <DataGrid ItemsSource="{Binding LowStockProducts}" IsReadOnly="True" MaxHeight="260">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="130" />
+                    <DataGridTextColumn Header="Product" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="130" />
+                    <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock, StringFormat=N2}" Width="120" />
+                    <DataGridTextColumn Header="Minimum Level" Binding="{Binding MinimumStockLevel, StringFormat=N2}" Width="120" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <TextBlock Text="Out of Stock" Style="{StaticResource SubHeaderText}" Margin="0,0,0,8" />
+            <DataGrid ItemsSource="{Binding OutOfStockProducts}" IsReadOnly="True" MaxHeight="260">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="130" />
+                    <DataGridTextColumn Header="Product" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="130" />
+                    <DataGridTextColumn Header="Minimum Level" Binding="{Binding MinimumStockLevel, StringFormat=N2}" Width="120" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</UserControl>

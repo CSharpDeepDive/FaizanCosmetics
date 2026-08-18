@@ -1,0 +1,96 @@
+<UserControl x:Class="FaizanCosmetics.UI.Views.SalesHistoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1.2*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Sales History" Style="{StaticResource HeaderText}" />
+
+        <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Style="{StaticResource ValidationMessageText}"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,8,0,0" />
+
+        <Grid Grid.Row="2" Margin="0,16,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Style="{StaticResource AppTextBox}" Text="{Binding SearchInvoiceNumber, UpdateSourceTrigger=PropertyChanged}" Tag="Search by invoice number...">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <DatePicker Grid.Column="2" SelectedDate="{Binding FromDate}" Width="130" />
+            <DatePicker Grid.Column="4" SelectedDate="{Binding ToDate}" Width="130" />
+            <Button Grid.Column="6" Content="Search" Style="{StaticResource SecondaryButton}" Command="{Binding SearchCommand}" />
+        </Grid>
+
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Invoices}" SelectedItem="{Binding SelectedInvoice}" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Invoice #" Binding="{Binding InvoiceNumber}" Width="140" />
+                <DataGridTextColumn Header="Date" Binding="{Binding InvoiceDate, StringFormat='dd MMM yyyy HH:mm'}" Width="150" />
+                <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="*" />
+                <DataGridTextColumn Header="Grand Total" Binding="{Binding GrandTotal, StringFormat=N2}" Width="110" />
+                <DataGridTextColumn Header="Paid" Binding="{Binding PaidAmount, StringFormat=N2}" Width="100" />
+                <DataGridTextColumn Header="Due" Binding="{Binding DueAmount, StringFormat=N2}" Width="100" />
+                <DataGridTextColumn Header="Payment" Binding="{Binding PaymentStatus}" Width="90" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="90" />
+                <DataGridTextColumn Header="Cashier" Binding="{Binding CreatedByUserName}" Width="120" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="4" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Cancel Invoice (Admin/Manager)" Style="{StaticResource DangerButton}" Command="{Binding CancelInvoiceCommand}"
+                    HorizontalAlignment="Left" Visibility="{Binding CanCancelInvoices, Converter={StaticResource BooleanToVisibilityConverter2}}" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="{Binding TotalCount, StringFormat='{}{0} invoices'}" Style="{StaticResource BodyText}" Margin="0,0,16,0" VerticalAlignment="Center" />
+                <Button Content="◀" Style="{StaticResource SecondaryButton}" Command="{Binding PreviousPageCommand}" Padding="10,6" Margin="0,0,6,0" />
+                <TextBlock VerticalAlignment="Center" Margin="0,0,6,0">
+                    <Run Text="{Binding CurrentPage}" /><Run Text=" / " /><Run Text="{Binding TotalPages}" />
+                </TextBlock>
+                <Button Content="▶" Style="{StaticResource SecondaryButton}" Command="{Binding NextPageCommand}" Padding="10,6" />
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="5" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush2}" BorderThickness="1" CornerRadius="6" Padding="12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Invoice Items" Style="{StaticResource SubHeaderText}" Margin="0,0,0,4" />
+                    <TextBlock Style="{StaticResource ValidationMessageText}" Margin="0,0,0,8"
+                               Text="{Binding SelectedInvoiceDetail.CancellationReason, StringFormat='Cancelled — Reason: {0}'}"
+                               Visibility="{Binding SelectedInvoiceDetail.CancellationReason, Converter={StaticResource NullToVisibilityConverter}}" />
+                </StackPanel>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding SelectedInvoiceItems}" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*" />
+                        <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity, StringFormat=N2}" Width="70" />
+                        <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=N2}" Width="90" />
+                        <DataGridTextColumn Header="Discount" Binding="{Binding DiscountAmount, StringFormat=N2}" Width="90" />
+                        <DataGridTextColumn Header="Tax" Binding="{Binding TaxAmount, StringFormat=N2}" Width="80" />
+                        <DataGridTextColumn Header="Line Total" Binding="{Binding LineTotal, StringFormat=N2}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

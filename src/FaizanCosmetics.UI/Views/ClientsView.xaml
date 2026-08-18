@@ -1,0 +1,74 @@
+<UserControl x:Class="FaizanCosmetics.UI.Views.ClientsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Clients" Style="{StaticResource HeaderText}" />
+            <Button Grid.Column="1" Content="+ Add Client" Style="{StaticResource PrimaryButton}" Command="{Binding AddClientCommand}" />
+        </Grid>
+
+        <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Style="{StaticResource ValidationMessageText}"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,8,0,0" />
+
+        <Grid Grid.Row="2" Margin="0,16,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Style="{StaticResource AppTextBox}" Margin="0,0,10,0"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Tag="Search by name, phone, or client code...">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <Button Grid.Column="1" Content="Search" Style="{StaticResource SecondaryButton}" Command="{Binding SearchCommand}" />
+        </Grid>
+
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Code" Binding="{Binding ClientCode}" Width="90" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="130" />
+                <DataGridTextColumn Header="Type" Binding="{Binding ClientType}" Width="90" />
+                <DataGridTextColumn Header="Balance" Binding="{Binding Balance, StringFormat=N2}" Width="110" />
+                <DataGridTextColumn Header="Credit Limit" Binding="{Binding CreditLimit, StringFormat=N2}" Width="110" />
+                <DataGridTextColumn Header="Status" Binding="{Binding IsActive, Converter={StaticResource ActiveStatusConverter}}" Width="90" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Row="4" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button Content="Edit" Style="{StaticResource SecondaryButton}" Command="{Binding EditClientCommand}" Margin="0,0,10,0" />
+                <Button Content="Activate / Deactivate" Style="{StaticResource SecondaryButton}" Command="{Binding ToggleActiveCommand}" Margin="0,0,10,0" />
+                <Button Content="Khata Statement" Style="{StaticResource SecondaryButton}" Command="{Binding ViewStatementCommand}" Margin="0,0,10,0" />
+                <Button Content="Receive Payment" Style="{StaticResource PrimaryButton}" Command="{Binding ReceivePaymentCommand}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding TotalCount, StringFormat='{}{0} clients'}" Style="{StaticResource BodyText}" Margin="0,0,16,0" VerticalAlignment="Center" />
+                <Button Content="◀" Style="{StaticResource SecondaryButton}" Command="{Binding PreviousPageCommand}" Padding="10,6" Margin="0,0,6,0" />
+                <TextBlock VerticalAlignment="Center" Margin="0,0,6,0">
+                    <Run Text="{Binding CurrentPage}" /><Run Text=" / " /><Run Text="{Binding TotalPages}" />
+                </TextBlock>
+                <Button Content="▶" Style="{StaticResource SecondaryButton}" Command="{Binding NextPageCommand}" Padding="10,6" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

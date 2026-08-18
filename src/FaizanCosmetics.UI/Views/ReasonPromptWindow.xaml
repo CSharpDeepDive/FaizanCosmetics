@@ -1,0 +1,33 @@
+<Window x:Class="FaizanCosmetics.UI.Views.ReasonPromptWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}" Height="320" Width="420"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" x:Name="TitleTextBlock" Style="{StaticResource HeaderText}" FontSize="17" />
+        <TextBlock Grid.Row="1" x:Name="MessageTextBlock" Style="{StaticResource BodyText}" TextWrapping="Wrap" Margin="0,10,0,16" Foreground="{StaticResource TextSecondaryBrush}" />
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Reason *" Style="{StaticResource BodyText}" Margin="0,0,0,4" />
+            <TextBox x:Name="ReasonTextBox" Style="{StaticResource AppTextBox}" AcceptsReturn="True" Height="70" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <Grid Grid.Row="3" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="12" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Cancel" Style="{StaticResource SecondaryButton}" Click="CancelButton_Click" />
+            <Button Grid.Column="2" Content="Confirm" Style="{StaticResource DangerButton}" Click="ConfirmButton_Click" />
+        </Grid>
+    </Grid>
+</Window>

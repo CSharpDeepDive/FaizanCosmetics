@@ -1,0 +1,40 @@
+<Window x:Class="FaizanCosmetics.UI.Views.PriceHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Price History" Height="480" Width="760"
+        WindowStartupLocation="CenterOwner" Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Style="{StaticResource HeaderText}" FontSize="18" Margin="0,0,0,16">
+            <Run Text="Price History — " /><Run Text="{Binding ProductName}" />
+        </TextBlock>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding History}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding ChangedDate, StringFormat='dd MMM yyyy HH:mm'}" Width="140" />
+                <DataGridTextColumn Header="Changed By" Binding="{Binding ChangedByUserName}" Width="130" />
+                <DataGridTextColumn Header="Purchase Price" Width="140">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0:N2} → {1:N2}">
+                            <Binding Path="OldPurchasePrice" />
+                            <Binding Path="NewPurchasePrice" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Selling Price" Width="140">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0:N2} → {1:N2}">
+                            <Binding Path="OldSellingPrice" />
+                            <Binding Path="NewSellingPrice" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Reason" Binding="{Binding Reason}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

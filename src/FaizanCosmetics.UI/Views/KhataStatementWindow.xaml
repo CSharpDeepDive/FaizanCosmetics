@@ -1,0 +1,63 @@
+<Window x:Class="FaizanCosmetics.UI.Views.KhataStatementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Khata Statement" Height="640" Width="820"
+        WindowStartupLocation="CenterOwner" Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Style="{StaticResource HeaderText}" FontSize="18">
+            <Run Text="Khata Statement — " /><Run Text="{Binding ClientName}" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="1" Text="{Binding ErrorMessage}" Style="{StaticResource ValidationMessageText}"
+                   Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,8,0,0" />
+
+        <Grid Grid.Row="2" Margin="0,16,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="From:" VerticalAlignment="Center" Style="{StaticResource BodyText}" />
+            <DatePicker Grid.Column="1" SelectedDate="{Binding FromDate}" Width="130" />
+            <TextBlock Grid.Column="2" Text="To:" VerticalAlignment="Center" Style="{StaticResource BodyText}" Margin="10,0,0,0" />
+            <DatePicker Grid.Column="3" SelectedDate="{Binding ToDate}" Width="130" Margin="10,0,0,0" />
+            <Button Grid.Column="4" Content="Apply" Style="{StaticResource SecondaryButton}" Command="{Binding ApplyFilterCommand}" Margin="10,0,0,0" />
+            <Button Grid.Column="5" Content="Clear" Style="{StaticResource SecondaryButton}" Command="{Binding ClearFilterCommand}" Margin="10,0,0,0" />
+
+            <StackPanel Grid.Column="7" Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Style="{StaticResource BodyText}" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <Run Text="Opening: " /><Run Text="{Binding OpeningBalance, StringFormat=N2}" FontWeight="SemiBold" />
+                </TextBlock>
+                <TextBlock Style="{StaticResource BodyText}" VerticalAlignment="Center">
+                    <Run Text="Closing: " /><Run Text="{Binding ClosingBalance, StringFormat=N2}" FontWeight="Bold" />
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+
+        <DataGrid Grid.Row="3" ItemsSource="{Binding Entries}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding EntryDate, StringFormat='dd MMM yyyy HH:mm'}" Width="150" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+                <DataGridTextColumn Header="Type" Binding="{Binding EntryType}" Width="110" />
+                <DataGridTextColumn Header="Debit" Binding="{Binding Debit, StringFormat=N2}" Width="100" />
+                <DataGridTextColumn Header="Credit" Binding="{Binding Credit, StringFormat=N2}" Width="100" />
+                <DataGridTextColumn Header="Balance" Binding="{Binding Balance, StringFormat=N2}" Width="110" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Grid.Row="4" Text="Export to PDF/Excel and printing arrive in Phase 9." Style="{StaticResource SubHeaderText}" FontSize="11" Margin="0,10,0,0" />
+    </Grid>
+</Window>

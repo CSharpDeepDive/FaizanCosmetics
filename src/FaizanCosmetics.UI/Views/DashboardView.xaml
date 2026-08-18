@@ -1,0 +1,152 @@
+<UserControl x:Class="FaizanCosmetics.UI.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF">
+    <!-- TileBorder/TileValue/TileLabel/QuickActionButton now live in Styles/Controls.xaml
+         (global) — they used to be defined only here, which is what crashed any other screen
+         (e.g. SalesInvoiceView) that tried to reuse them. -->
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="24">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Dashboard" Style="{StaticResource HeaderText}" />
+                <Button Grid.Column="1" Content="Refresh" Style="{StaticResource SecondaryButton}" Command="{Binding RefreshCommand}" />
+            </Grid>
+
+            <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource ValidationMessageText}"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}" Margin="0,8,0,0" />
+
+            <!-- Quick actions -->
+            <WrapPanel Margin="0,16,0,20">
+                <Button Content="New Invoice" Style="{StaticResource QuickActionButton}" Command="{Binding NewInvoiceCommand}" />
+                <Button Content="Receive Payment" Style="{StaticResource QuickActionButton}" Command="{Binding ReceivePaymentCommand}" />
+                <Button Content="Add Client" Style="{StaticResource QuickActionButton}" Command="{Binding AddClientCommand}" />
+                <Button Content="Add Product" Style="{StaticResource QuickActionButton}" Command="{Binding AddProductCommand}" />
+                <Button Content="Purchase" Style="{StaticResource QuickActionButton}" Command="{Binding PurchaseCommand}" />
+                <Button Content="Stock Adjustment" Style="{StaticResource QuickActionButton}" Command="{Binding StockAdjustmentCommand}" />
+                <Button Content="Reports" Style="{StaticResource QuickActionButton}" Command="{Binding ReportsCommand}" />
+            </WrapPanel>
+
+            <!-- Summary tiles -->
+            <UniformGrid Columns="5" Rows="2">
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S SALES" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding TodaySales, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S PROFIT" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding TodayProfit, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S INVOICES" Style="{StaticResource TileLabel}" />
+                        <TextBlock Text="{Binding TodayInvoiceCount}" Style="{StaticResource TileValue}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="PENDING CLIENT DUES" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}" Foreground="{StaticResource WarningBrush}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding PendingClientDues, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="SUPPLIER OUTSTANDING" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}" Foreground="{StaticResource WarningBrush}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding SupplierOutstanding, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="LOW STOCK PRODUCTS" Style="{StaticResource TileLabel}" />
+                        <TextBlock Text="{Binding LowStockCount}" Style="{StaticResource TileValue}" Foreground="{StaticResource WarningBrush}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="OUT OF STOCK" Style="{StaticResource TileLabel}" />
+                        <TextBlock Text="{Binding OutOfStockCount}" Style="{StaticResource TileValue}" Foreground="{StaticResource DangerBrush}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S CASH" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding TodayCash, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S CARD" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding TodayCard, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource TileBorder}">
+                    <StackPanel>
+                        <TextBlock Text="TODAY'S BANK" Style="{StaticResource TileLabel}" />
+                        <TextBlock Style="{StaticResource TileValue}">
+                            <Run Text="{Binding CurrencySymbol}" /><Run Text=" " /><Run Text="{Binding TodayBankTransfer, StringFormat=N2}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Charts -->
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource TileBorder}" Height="320">
+                    <StackPanel>
+                        <TextBlock Text="Sales — Last 7 Days" Style="{StaticResource SubHeaderText}" Margin="0,0,0,8" />
+                        <lvc:CartesianChart Series="{Binding SalesTrendSeries}" XAxes="{Binding SalesTrendXAxes}" Height="260" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource TileBorder}" Height="320">
+                    <StackPanel>
+                        <TextBlock Text="Sales by Category" Style="{StaticResource SubHeaderText}" Margin="0,0,0,8" />
+                        <lvc:PieChart Series="{Binding CategorySeries}" Height="260" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Top selling products -->
+            <Border Style="{StaticResource TileBorder}" Margin="0,20,0,12">
+                <StackPanel>
+                    <TextBlock Text="Top-Selling Products" Style="{StaticResource SubHeaderText}" Margin="0,0,0,8" />
+                    <DataGrid ItemsSource="{Binding TopSellingProducts}" IsReadOnly="True" MaxHeight="240">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*" />
+                            <DataGridTextColumn Header="Qty Sold" Binding="{Binding QuantitySold, StringFormat=N0}" Width="120" />
+                            <DataGridTextColumn Header="Revenue" Binding="{Binding TotalRevenue, StringFormat=N2}" Width="140" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
